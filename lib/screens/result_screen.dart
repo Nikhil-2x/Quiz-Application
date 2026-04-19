@@ -87,6 +87,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     final wrongCount = widget.total - widget.score;
 
     final correctValue = widget.score == 0 ? 0.0001 : widget.score.toDouble();
@@ -118,11 +121,12 @@ class _ResultScreenState extends State<ResultScreen> {
               Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color(0xFF151C33),
                   borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Color(0xFF2A355B)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Colors.black.withValues(alpha: 0.25),
                       blurRadius: 14,
                       offset: Offset(0, 6),
                     ),
@@ -142,13 +146,14 @@ class _ResultScreenState extends State<ResultScreen> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     SizedBox(height: 8),
                     Text(
                       performanceMessage,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15, color: Colors.black87),
+                      style: TextStyle(fontSize: 15, color: Color(0xFFB4BED9)),
                     ),
                     SizedBox(height: 18),
                     Text(
@@ -156,11 +161,12 @@ class _ResultScreenState extends State<ResultScreen> {
                       style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w800,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     Text(
                       '${percentage.toStringAsFixed(1)}% Accuracy',
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
+                      style: TextStyle(fontSize: 15, color: Color(0xFF9AA4C3)),
                     ),
                   ],
                 ),
@@ -169,11 +175,12 @@ class _ResultScreenState extends State<ResultScreen> {
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color(0xFF151C33),
                   borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Color(0xFF2A355B)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Colors.black.withValues(alpha: 0.25),
                       blurRadius: 14,
                       offset: Offset(0, 6),
                     ),
@@ -187,6 +194,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     SizedBox(height: 12),
@@ -211,13 +219,14 @@ class _ResultScreenState extends State<ResultScreen> {
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
+                                  color: colorScheme.onSurface,
                                 ),
                               ),
                               Text(
                                 'Score',
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Colors.black54,
+                                  color: Color(0xFF9AA4C3),
                                 ),
                               ),
                             ],
@@ -248,21 +257,21 @@ class _ResultScreenState extends State<ResultScreen> {
                   padding: EdgeInsets.all(12),
                   margin: EdgeInsets.only(bottom: 12),
                   decoration: BoxDecoration(
-                    color: Colors.red.shade50,
+                    color: Color(0xFF311116),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.red.shade200),
+                    border: Border.all(color: Color(0xFF7F1D1D)),
                   ),
                   child: Row(
                     children: [
                       Icon(
                         Icons.warning_amber_rounded,
-                        color: Colors.red.shade700,
+                        color: Color(0xFFFCA5A5),
                       ),
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           'Result shown, but attempt was not saved: ${widget.saveErrorMessage}',
-                          style: TextStyle(color: Colors.red.shade800),
+                          style: TextStyle(color: Color(0xFFFCA5A5)),
                         ),
                       ),
                     ],
@@ -271,11 +280,12 @@ class _ResultScreenState extends State<ResultScreen> {
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color(0xFF151C33),
                   borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Color(0xFF2A355B)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Colors.black.withValues(alpha: 0.25),
                       blurRadius: 14,
                       offset: Offset(0, 6),
                     ),
@@ -289,6 +299,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -308,7 +319,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             padding: EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               'Could not load history right now.',
-                              style: TextStyle(color: Colors.red.shade700),
+                              style: TextStyle(color: Color(0xFFFCA5A5)),
                             ),
                           );
                         }
@@ -319,7 +330,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             padding: EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               'No attempts available yet.',
-                              style: TextStyle(color: Colors.black54),
+                              style: TextStyle(color: Color(0xFF9AA4C3)),
                             ),
                           );
                         }
@@ -330,9 +341,9 @@ class _ResultScreenState extends State<ResultScreen> {
                               margin: EdgeInsets.only(top: 10),
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade50,
+                                color: Color(0xFF0F1630),
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.grey.shade200),
+                                border: Border.all(color: Color(0xFF2A355B)),
                               ),
                               child: Row(
                                 children: [
@@ -340,14 +351,16 @@ class _ResultScreenState extends State<ResultScreen> {
                                     width: 44,
                                     height: 44,
                                     decoration: BoxDecoration(
-                                      color: Colors.indigo.shade50,
+                                      color: colorScheme.primary.withValues(
+                                        alpha: 0.16,
+                                      ),
                                       shape: BoxShape.circle,
                                     ),
                                     alignment: Alignment.center,
                                     child: Text(
                                       '${attempt.percentage.toStringAsFixed(0)}%',
                                       style: TextStyle(
-                                        color: Colors.indigo,
+                                        color: colorScheme.primary,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -362,6 +375,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                           '${attempt.score}/${attempt.total} correct',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
+                                            color: colorScheme.onSurface,
                                           ),
                                         ),
                                         SizedBox(height: 2),
@@ -369,7 +383,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                           formatDateTime(attempt.completedAt),
                                           style: TextStyle(
                                             fontSize: 12,
-                                            color: Colors.black54,
+                                            color: Color(0xFF9AA4C3),
                                           ),
                                         ),
                                       ],

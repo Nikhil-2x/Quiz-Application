@@ -124,6 +124,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(title: Text("Quiz")),
@@ -140,7 +143,7 @@ class _QuizScreenState extends State<QuizScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.error_outline, size: 54, color: Colors.redAccent),
+                Icon(Icons.error_outline, size: 54, color: colorScheme.error),
                 SizedBox(height: 12),
                 Text(
                   errorMessage!,
@@ -165,7 +168,7 @@ class _QuizScreenState extends State<QuizScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.quiz_outlined, size: 54, color: Colors.indigo),
+                Icon(Icons.quiz_outlined, size: 54, color: colorScheme.primary),
                 SizedBox(height: 12),
                 Text(
                   "No valid questions found.",
@@ -203,7 +206,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
             Text(
               "Question ${currentIndex + 1}/${questions.length}",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 16, color: Color(0xFF9AA4C3)),
             ),
 
             SizedBox(height: 10),
@@ -213,7 +216,6 @@ class _QuizScreenState extends State<QuizScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              elevation: 4,
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
@@ -232,9 +234,10 @@ class _QuizScreenState extends State<QuizScreen> {
                 margin: EdgeInsets.symmetric(vertical: 6),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    elevation: 2,
+                    backgroundColor: Color(0xFF151C33),
+                    foregroundColor: colorScheme.onSurface,
+                    elevation: 0,
+                    side: BorderSide(color: Color(0xFF2A355B)),
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   ),
                   onPressed: () => checkAnswer(opt),

@@ -21,16 +21,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Quiz App", style: TextStyle(color: Colors.white)),
-      ),
+      appBar: AppBar(title: Text("Quiz App")),
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.indigo, Colors.blueAccent],
+            colors: [Color(0xFF0E1530), Color(0xFF182448), Color(0xFF0A1022)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -38,7 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.quiz, size: 100, color: Colors.white),
+            Container(
+              padding: EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colorScheme.primary.withValues(alpha: 0.18),
+              ),
+              child: Icon(Icons.quiz, size: 72, color: colorScheme.primary),
+            ),
 
             SizedBox(height: 20),
 
@@ -51,13 +59,29 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
+            SizedBox(height: 8),
+
+            Text(
+              "Sharpen your knowledge with a clean and focused quiz experience.",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: Color(0xFFB4BED9)),
+            ),
+
             SizedBox(height: 30),
 
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color(0xFF151C33),
                 borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Color(0xFF2A355B)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.25),
+                    blurRadius: 18,
+                    offset: Offset(0, 10),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
@@ -66,12 +90,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     onChanged: (_) => setState(() {}),
                     decoration: InputDecoration(
                       labelText: "Enter your name",
-                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.person_outline),
                     ),
+                    style: TextStyle(color: colorScheme.onSurface),
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 54),
                       padding: EdgeInsets.symmetric(
                         horizontal: 40,
                         vertical: 20,
