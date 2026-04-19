@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController nameController = TextEditingController();
+
+  bool get isNameValid => nameController.text.trim().isNotEmpty;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +63,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   TextField(
                     controller: nameController,
+                    onChanged: (_) => setState(() {}),
                     decoration: InputDecoration(
                       labelText: "Enter your name",
                       border: OutlineInputBorder(),
@@ -61,14 +77,18 @@ class HomeScreen extends StatelessWidget {
                         vertical: 20,
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => QuizScreen(name: nameController.text),
-                        ),
-                      );
-                    },
+                    onPressed: isNameValid
+                        ? () {
+                            final trimmedName = nameController.text.trim();
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => QuizScreen(name: trimmedName),
+                              ),
+                            );
+                          }
+                        : null,
                     child: Text("Start Quiz"),
                   ),
                 ],
