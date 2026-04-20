@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../models/answered_question.dart';
 import '../models/quiz_attempt.dart';
+import '../services/ai_api_service.dart';
 import '../services/firebase_service.dart';
+import 'analysis_screen.dart';
 import 'home_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final int score;
   final int total;
   final String name;
+  final List<AnsweredQuestion> answeredQuestions;
   final String? saveErrorMessage;
 
   const ResultScreen({
@@ -15,6 +19,7 @@ class ResultScreen extends StatefulWidget {
     required this.score,
     required this.total,
     required this.name,
+    required this.answeredQuestions,
     this.saveErrorMessage,
   });
 
@@ -24,12 +29,19 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   late Future<List<QuizAttempt>> recentAttemptsFuture;
+  late Future<String> analysisFuture;
 
   @override
   void initState() {
     super.initState();
     recentAttemptsFuture = FirebaseService().fetchRecentAttempts(
       name: widget.name,
+    );
+    analysisFuture = AiApiService().analyzeQuiz(
+      name: widget.name,
+      questions: widget.answeredQuestions,
+      score: widget.score,
+      total: widget.total,
     );
   }
 
@@ -277,6 +289,96 @@ class _ResultScreenState extends State<ResultScreen> {
                     ],
                   ),
                 ),
+              Container(
+                padding: EdgeInsets.all(16),
+                margin: EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Color(0xFF151C33),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Color(0xFF2A355B)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.25),
+                      blurRadius: 14,
+                      offset: Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: FutureBuilder<String>(
+                  future: analysisFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(child: Text('Generating AI analysis...')),
+                        ],
+                      );
+                    }
+
+                    if (snapshot.hasError) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'AI analysis is unavailable right now.',
+                            style: TextStyle(color: Color(0xFFFCA5A5)),
+                          ),
+                          SizedBox(height: 10),
+                          OutlinedButton(
+                            onPressed: () {
+                              setState(() {
+                                analysisFuture = AiApiService().analyzeQuiz(
+                                  name: widget.name,
+                                  questions: widget.answeredQuestions,
+                                  score: widget.score,
+                                  total: widget.total,
+                                );
+                              });
+                            },
+                            child: Text('Retry Analysis'),
+                          ),
+                        ],
+                      );
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'AI Analysis is ready.',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: colorScheme.onSurface,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AnalysisScreen(
+                                  name: widget.name,
+                                  analysisFuture: analysisFuture,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.psychology_alt_outlined),
+                          label: Text('View Detailed Analysis'),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
